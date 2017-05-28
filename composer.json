@@ -1,0 +1,13 @@
+{
+    "name": "zhaowei/imooc",
+    "authors": [
+        {
+            "name": "zhaowei",
+            "email": "zhaowei@dxy.cn"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.2",
+        "jaeger/phpquery-single": "^0.9.7"
+    }
+}
