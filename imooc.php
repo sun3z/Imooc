@@ -5,6 +5,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 use phpQuery as phpQuery;
 use GuzzleHttp\Client;
+use Imooc\CourseInfo;
 
 
 
@@ -15,8 +16,9 @@ $client = new Client([
 $response = $client->get('/course/list');
 $body = $response->getBody()->getContents();
 
-// echo $body;
+// 解析课程列表数据
 PHPQuery::newDocumentHTML($body);
+$courseList = [];
 foreach(pq('.course-card') as $card) {
     $course['title'] = pq($card)->find('.course-card-content h3')->text();
     $course['info'] = pq($card)->find('.course-card-content p')->text();
@@ -24,11 +26,13 @@ foreach(pq('.course-card') as $card) {
     $infoTemp = explode('·', pq($card)->find('.course-card-info')->text());
     $course['rank'] = trim($infoTemp[0]);
     $course['num'] = trim($infoTemp[1]);
-
-    var_dump($course);
-
+    $courseList[] = $course;
 }
 
-// foreach($cards as $card) {
-//    echo $card;
-// }
+$courseInfo = new CourseInfo();
+
+$info = $courseInfo->getAllChapter($courseList[0]['href']);
+var_dump($info);
+
+
+

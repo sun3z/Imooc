@@ -9,5 +9,10 @@
     "require": {
         "guzzlehttp/guzzle": "^6.2",
         "jaeger/phpquery-single": "^0.9.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Imooc\\": "src/"
+        }
     }
 }
