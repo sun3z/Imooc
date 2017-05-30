@@ -4,9 +4,13 @@ namespace Imooc;
 use GuzzleHttp\Client;
 use Imooc\CourseInfo;
 
+/**
+ * 下载课程视频
+ */
 class Download
 {
     protected $client = null;
+    protected $courseInfo = null;
     protected $downloadDir = '';
 
     public function __construct()
@@ -16,6 +20,12 @@ class Download
         $this->courseInfo = new CourseInfo();
     }
 
+    /**
+     * 下载指定课程下的所有视频
+     * @param  string $courseTitle
+     * @param  array $chapterList
+     * @return
+     */
     public function downloadAll($courseTitle, $chapterList)
     {
         $videoDir = $this->downloadDir . $courseTitle .'/';
@@ -26,12 +36,18 @@ class Download
         foreach($chapterList as $chapter) {
             foreach($chapter['chapter'] as $value) {
                 $videoFile = $videoDir . $value['title'] . '.mp4';
-                $videoLink = $value['link'];
+                $videoLink = $this->courseInfo->parseDownloadLink($value['link']);
                 $this->downloadVideo($videoFile, $videoLink);
             }
         }
     }
 
+    /**
+     * 执行下载操作
+     * @param  string $videoFile
+     * @param  string $videoLink
+     * @return
+     */
     public function downloadVideo($videoFile, $videoLink)
     {
         $this->client->request('GET', $videoLink, ['sink' => $videoFile]);

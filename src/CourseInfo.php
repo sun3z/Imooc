@@ -16,27 +16,25 @@ class CourseInfo
     public function __construct()
     {
         $this->listClient = new Client(['base_uri' => 'http://www.imooc.com']);
-        $jar = new \GuzzleHttp\Cookie\CookieJar();
         $this->client = new Client([
             'base_uri' => 'http://m.imooc.com',
-            'cookies' => $jar,
         ]);
     }
 
     /**
      * 获取指定课程列表页面课程详情
-     * @param  [type] $page [description]
-     * @return [type]       [description]
+     * @param  integer $page 
+     * @return array
      */
     public function getCoursePageList($page=1)
     {
-        $reponse = $this->listClient->get('/course/list');
+        $reponse = $this->listClient->get('/course/list?page=' . $page);
         return $this->parseCoursePageInfo($reponse->getBody()->getContents());
     }
 
     /**
      * 解析指定课程列表页课程详情
-     * @return [type] [description]
+     * @return array
      */
     protected function parseCoursePageInfo($body)
     {
@@ -85,7 +83,7 @@ class CourseInfo
             // 遍历章节下的课程
             foreach(pq($chapter)->find('ul>li') as $k => $section) {
                 $sectionTemp['title'] = pq($section)->find('a')->text();
-                $sectionTemp['link'] = $this->parseDownloadLink(pq($section)->find('a')->attr('href'));
+                $sectionTemp['link'] = pq($section)->find('a')->attr('href');
                 $info['chapter'][] = $sectionTemp;
             }
             $chapterList[] = $info;
