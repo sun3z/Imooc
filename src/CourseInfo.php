@@ -26,9 +26,9 @@ class CourseInfo
      * @param  integer $page 
      * @return array
      */
-    public function getCoursePageList($page=1)
+    public function getCoursePageList($c='', $page=1)
     {
-        $reponse = $this->listClient->get('/course/list?page=' . $page);
+        $reponse = $this->listClient->get('/course/list?' . http_build_query(['c' => $c, 'page' => $page]));
         return $this->parseCoursePageInfo($reponse->getBody()->getContents());
     }
 
@@ -95,7 +95,7 @@ class CourseInfo
     /**
      * 解析指定课程页面视频的下载链接
      * @param  string $videoUrl
-     * @return string
+     * @return mixed 
      */
     public function parseDownloadLink($videoUrl)
     {
@@ -106,10 +106,17 @@ class CourseInfo
             ]);
             $reponse = $clientTemp->get($videoUrl);
             $reponse = $clientTemp->get($videoUrl);
-            preg_match_all('/course\.videoUrl="(.*?)"/', $reponse->getBody()->getContents(), $video);
-            return $video[1][0];
+            $html = $reponse->getBody()->getContents();
+            preg_match_all('/course\.videoUrl="(.*?)"/', $html, $video);
+            if(!empty($video[1][0])) {
+                return $video[1][0];
+            } else {
+                file_put_contents('error.log', $html);
+            }
+            
         } else {
             echo $videoUrl . "\n";
+            return false;
         }
         
     }

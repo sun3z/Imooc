@@ -45,12 +45,14 @@ class Download
     /**
      * 执行下载操作
      * @param  string $videoFile
-     * @param  string $videoLink
+     * @param  mixed $videoLink
      * @return
      */
     public function downloadVideo($videoFile, $videoLink)
     {
-        $this->client->request('GET', $videoLink, ['sink' => $videoFile]);
+        if($videoLink !== false) {
+            $fh = fopen($videoFile, 'w');
+            $this->client->request('GET', $videoLink, ['sink' => $fh]);
+        }  
     }
-
 }
