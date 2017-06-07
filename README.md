@@ -8,7 +8,7 @@ git clone ...
 
 composer install  
 
-在命令行中执行 php run.php
+在命令行中执行 php run.php all 或 php run.php php(慕课网分类)
 
 ![](img/run.png)
 

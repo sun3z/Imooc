@@ -117,7 +117,6 @@ class CourseInfo
         } else {
             echo $videoUrl . "\n";
             return false;
-        }
-        
+        } 
     }
 }
