@@ -4,11 +4,47 @@
 
 ## 如何使用
 
-git clone ...
+```
+# 下载项目
+git clone https://github.com/sun3z/Imooc.git
 
-composer install  
+# 安装依赖
+composer install
 
-在命令行中执行 php run.php all 或 php run.php php(慕课网分类)
+# 开始使用...
+
+```
+
+
+
+### 暂支持两种方式下载
+
+1. 使用命令行工具查询慕课网分类，选择课程进行下载。
+2. 已知课程id，直接输入课程id进行下载。
+
+
+
+#### 方式一：输入分类
+
+可以输入慕课网课程列表上的方向，如 fe be data
+
+可以输入慕课网课程列表上的分类，如 html css3 php
+
+``` 
+php run.php fe
+```
+
+
+
+#### 方式二：输入课程id（新增）
+
+http://www.imooc.com/learn/834
+
+```
+php run.php 834
+```
+
+#### 图不补了，还是那么回事..
 
 ![](img/run.png)
 
